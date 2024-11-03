@@ -23,6 +23,11 @@ public sealed class ProcessStepEdgeBuilder
     internal ProcessStepBuilder Source { get; init; }
 
     /// <summary>
+    /// The condition that must be met for the edge to be traversed.
+    /// </summary>
+    internal Func<object, bool>? Condition { get; private set; }
+
+    /// <summary>
     /// Initializes a new instance of the <see cref="ProcessStepEdgeBuilder"/> class.
     /// </summary>
     /// <param name="source">The source step.</param>
@@ -37,6 +42,18 @@ public sealed class ProcessStepEdgeBuilder
     }
 
     /// <summary>
+    /// Sets the condition that must be met for the edge to be traversed.
+    /// </summary>
+    /// <param name="condition"></param>
+    /// <returns></returns>
+    public ProcessStepEdgeBuilder When(Func<object, bool> condition)
+    {
+        this.Condition = condition;
+
+        return this;
+    }
+
+    /// <summary>
     /// Builds the edge.
     /// </summary>
     internal KernelProcessEdge Build()
@@ -44,7 +61,10 @@ public sealed class ProcessStepEdgeBuilder
         Verify.NotNull(this.Source?.Id);
         Verify.NotNull(this.Target);
 
-        return new KernelProcessEdge(this.Source.Id, this.Target.Build());
+        return new KernelProcessEdge(
+            sourceStepId: this.Source.Id,
+            outputTarget: this.Target.Build(),
+            condition: this.Condition);
     }
 
     /// <summary>

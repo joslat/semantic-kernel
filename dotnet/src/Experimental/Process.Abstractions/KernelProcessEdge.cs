@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Microsoft. All rights reserved.
 
+using System;
 using System.Runtime.Serialization;
 
 namespace Microsoft.SemanticKernel;
@@ -18,6 +19,18 @@ public sealed class KernelProcessEdge
     public string SourceStepId { get; init; }
 
     /// <summary>
+    /// The unique identifier of the target Step.
+    /// </summary>
+    [DataMember]
+    public string TargetStepId { get; init; }
+
+    /// <summary>
+    /// The condition that must be met for the edge to be traversed.
+    /// </summary>
+    [IgnoreDataMember]
+    public Func<object, bool>? Condition { get; init; }
+
+    /// <summary>
     /// The collection of <see cref="KernelProcessFunctionTarget"/>s that are the output of the source Step.
     /// </summary>
     [DataMember]
@@ -33,5 +46,15 @@ public sealed class KernelProcessEdge
 
         this.SourceStepId = sourceStepId;
         this.OutputTarget = outputTarget;
+        this.TargetStepId = outputTarget.StepId;
+    }
+
+    public KernelProcessEdge(
+        string sourceStepId,
+        KernelProcessFunctionTarget outputTarget,
+        Func<object, bool>? condition)
+        : this(sourceStepId, outputTarget)
+    {
+        this.Condition = condition;
     }
 }

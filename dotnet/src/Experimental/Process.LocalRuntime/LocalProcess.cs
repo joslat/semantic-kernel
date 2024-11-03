@@ -304,8 +304,11 @@ internal sealed class LocalProcess : LocalStep, IDisposable
             {
                 foreach (var edge in edges)
                 {
-                    ProcessMessage message = ProcessMessageFactory.CreateFromEdge(edge, externalEvent.Data);
-                    messageChannel.Enqueue(message);
+                    if (edge.Condition == null || edge.Condition(externalEvent.Data))
+                    {
+                        ProcessMessage message = ProcessMessageFactory.CreateFromEdge(edge, externalEvent.Data);
+                        messageChannel.Enqueue(message);
+                    }
                 }
             }
         }
@@ -332,9 +335,12 @@ internal sealed class LocalProcess : LocalStep, IDisposable
             bool foundEdge = false;
             foreach (KernelProcessEdge edge in step.GetEdgeForEvent(stepEvent.Id))
             {
-                ProcessMessage message = ProcessMessageFactory.CreateFromEdge(edge, stepEvent.Data);
-                messageChannel.Enqueue(message);
-                foundEdge = true;
+                if (edge.Condition == null || edge.Condition(stepEvent.Data))
+                {
+                    ProcessMessage message = ProcessMessageFactory.CreateFromEdge(edge, stepEvent.Data);
+                    messageChannel.Enqueue(message);
+                    foundEdge = true;
+                }
             }
 
             // Error event was raised with no edge to handle it, send it to an edge defined as the global error target.

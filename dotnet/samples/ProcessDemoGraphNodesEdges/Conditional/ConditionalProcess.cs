@@ -2,6 +2,7 @@
 
 using System.Diagnostics;
 using Microsoft.SemanticKernel;
+using ProcessDemoGraphNodesEdges.Helpers;
 
 namespace ProcessDemoGraphNodesEdges;
 
@@ -62,6 +63,11 @@ public static class ConditionalProcess
         Console.WriteLine(mermaidGraph);
 
         Console.WriteLine($"=== End - Mermaid Diagram for '{processBuilder.Name}' ===");
+
+        // Generate image from Mermaid graph
+        var renderer = new MermaidRenderer();
+        await renderer.GenerateMermaidImageAsync(mermaidGraph, "ConditionalProcess.png");
+        Console.WriteLine("Diagram generated: ConditionalProcess.png");
 
 
 

@@ -4,4 +4,5 @@ using ProcessDemoGraphNodesEdges;
 
 Console.WriteLine("Hello, Process Framework!");
 
-await SimpleProcess.ExecuteAsync();
+//await SimpleProcess.ExecuteAsync();
+await ConditionalProcess.ExecuteAsync();

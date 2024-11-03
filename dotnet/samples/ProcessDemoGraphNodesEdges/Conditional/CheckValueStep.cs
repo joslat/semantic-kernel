@@ -2,7 +2,7 @@
 
 using Microsoft.SemanticKernel;
 
-namespace ProcessDemoGraphNodesEdges.ConditionalEdges;
+namespace ProcessDemoGraphNodesEdges;
 
 public class CheckValueStep : SingleFunctionKernelProcessStep<CheckValueStep>
 {

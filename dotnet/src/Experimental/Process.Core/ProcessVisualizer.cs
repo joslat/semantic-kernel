@@ -93,7 +93,7 @@ public static class ProcessVisualizer
                         }
 
                         // Handle conditions, if any
-                        string conditionLabel = edge.Condition != null ? "|Condition|" : "";
+                        string conditionLabel = edge.Condition != null ? $"|{edge.ConditionLabel}|" : "";
 
                         // Append the connection without showing IDs
                         sb.AppendLine($"{source} -->{conditionLabel} {target}");

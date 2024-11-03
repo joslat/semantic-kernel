@@ -28,6 +28,12 @@ public sealed class ProcessStepEdgeBuilder
     internal Func<object, bool>? Condition { get; private set; }
 
     /// <summary>
+    /// The Condition label for visualization and condition summary 
+    /// </summary>
+    internal string? ConditionLabel { get; private set; }
+
+
+    /// <summary>
     /// Initializes a new instance of the <see cref="ProcessStepEdgeBuilder"/> class.
     /// </summary>
     /// <param name="source">The source step.</param>
@@ -45,10 +51,12 @@ public sealed class ProcessStepEdgeBuilder
     /// Sets the condition that must be met for the edge to be traversed.
     /// </summary>
     /// <param name="condition"></param>
+    /// <param name="conditionLabel"></param>
     /// <returns></returns>
-    public ProcessStepEdgeBuilder When(Func<object, bool> condition)
+    public ProcessStepEdgeBuilder When(Func<object, bool> condition, string conditionLabel = "Condition")
     {
         this.Condition = condition;
+        this.ConditionLabel = conditionLabel;
 
         return this;
     }
@@ -64,7 +72,8 @@ public sealed class ProcessStepEdgeBuilder
         return new KernelProcessEdge(
             sourceStepId: this.Source.Id,
             outputTarget: this.Target.Build(),
-            condition: this.Condition);
+            condition: this.Condition,
+            conditionLabel: this.ConditionLabel);
     }
 
     /// <summary>

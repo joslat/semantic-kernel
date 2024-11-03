@@ -31,6 +31,12 @@ public sealed class KernelProcessEdge
     public Func<object, bool>? Condition { get; init; }
 
     /// <summary>
+    /// The label for the condition that must be met for the edge to be traversed.
+    /// </summary>
+    [DataMember]
+    public string? ConditionLabel { get; init; }
+
+    /// <summary>
     /// The collection of <see cref="KernelProcessFunctionTarget"/>s that are the output of the source Step.
     /// </summary>
     [DataMember]
@@ -49,12 +55,21 @@ public sealed class KernelProcessEdge
         this.TargetStepId = outputTarget.StepId;
     }
 
+    /// <summary>
+    /// Creates a new instance of the <see cref="KernelProcessEdge"/> class.
+    /// </summary>
+    /// <param name="sourceStepId"></param>
+    /// <param name="outputTarget"></param>
+    /// <param name="condition"></param>
+    /// <param name="conditionLabel"></param>
     public KernelProcessEdge(
         string sourceStepId,
         KernelProcessFunctionTarget outputTarget,
-        Func<object, bool>? condition)
+        Func<object, bool>? condition,
+        string? conditionLabel)
         : this(sourceStepId, outputTarget)
     {
         this.Condition = condition;
+        this.ConditionLabel = conditionLabel;
     }
 }

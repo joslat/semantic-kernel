@@ -1,6 +1,5 @@
 ﻿// Copyright (c) Microsoft. All rights reserved.
 
-using System.Diagnostics;
 using Microsoft.SemanticKernel;
 using ProcessDemoGraphNodesEdges.Helpers;
 
@@ -29,12 +28,12 @@ public static class ConditionalProcess
         // Conditional transitions using Func<object, bool>
         checkValueStep
             .OnEvent(CheckValueStep.OutputEvents.Executed)
-            .When(data => (int)data > 0)
+            .When(data => (int)data > 0, "Value > 0")
             .SendEventTo(new ProcessFunctionTargetBuilder(positiveStep));
 
         checkValueStep
             .OnEvent(CheckValueStep.OutputEvents.Executed)
-            .When(data => (int)data <= 0)
+            .When(data => (int)data <= 0, "Value <= 0")
             .SendEventTo(new ProcessFunctionTargetBuilder(negativeStep));
 
         // End the process

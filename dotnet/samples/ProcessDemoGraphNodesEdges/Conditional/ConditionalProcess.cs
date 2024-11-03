@@ -56,6 +56,15 @@ public static class ConditionalProcess
         // Build the kernel process
         var kernelProcess = processBuilder.Build();
 
+        string mermaidGraph = kernelProcess.ToMermaid();
+        Console.WriteLine($"=== Start - Mermaid Diagram for '{processBuilder.Name}' ===");
+
+        Console.WriteLine(mermaidGraph);
+
+        Console.WriteLine($"=== End - Mermaid Diagram for '{processBuilder.Name}' ===");
+
+
+
         // Create the kernel (assuming you have a method to create it)
         var kernel = SemanticKernelHelper.CreateKernel();
 

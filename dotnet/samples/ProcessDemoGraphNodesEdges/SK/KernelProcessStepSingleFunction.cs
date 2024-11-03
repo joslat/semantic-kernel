@@ -18,7 +18,7 @@ public abstract class SingleFunctionKernelProcessStep<TStep> :
         public static string Executed => $"{typeof(TStep).Name}_{nameof(Executed)}";
     }
 
-    public abstract ValueTask ExecuteAsync(KernelProcessStepContext context);
+    //public abstract ValueTask ExecuteAsync(KernelProcessStepContext context, object data = null);
 }
 
 public abstract class SingleFunctionKernelProcessStep<TStep, TState> : KernelProcessStep<TState>

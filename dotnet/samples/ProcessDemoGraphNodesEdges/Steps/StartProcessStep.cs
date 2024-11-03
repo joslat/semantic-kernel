@@ -16,7 +16,7 @@ public sealed class StartProcessStepSimple : KernelProcessStep
 public sealed class StartProcessStep : SingleFunctionKernelProcessStep<StartProcessStep>
 {
     [KernelFunction(Functions.Execute)]
-    public override async ValueTask ExecuteAsync(KernelProcessStepContext context)
+    public async ValueTask ExecuteAsync(KernelProcessStepContext context)
     {
         Console.WriteLine("start /n");
         await context.EmitEventAsync(OutputEvents.Executed);
